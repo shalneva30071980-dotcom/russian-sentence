@@ -1,0 +1,2299 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
+    <title>Разбери предложение — 4 класс</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        :root {
+            --bg: #0f0f1a;
+            --bg2: #1a1a2e;
+            --bg3: rgba(255, 255, 255, 0.04);
+            --border: rgba(255, 255, 255, 0.06);
+            --text: #ffffff;
+            --text2: rgba(255, 255, 255, 0.5);
+            --text3: rgba(255, 255, 255, 0.25);
+            --card: #1a1a2e;
+            --shadow: rgba(0, 0, 0, 0.6);
+            --primary: #ef4444;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #fbbf24;
+        }
+        .light-theme {
+            --bg: #fef2f2;
+            --bg2: #ffffff;
+            --bg3: rgba(239, 68, 68, 0.04);
+            --border: rgba(239, 68, 68, 0.1);
+            --text: #1a1a2e;
+            --text2: rgba(0, 0, 0, 0.5);
+            --text3: rgba(0, 0, 0, 0.25);
+            --card: #ffffff;
+            --shadow: rgba(0, 0, 0, 0.08);
+        }
+        body {
+            font-family: -apple-system, 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            min-height: 100vh;
+            padding: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            transition: background 0.3s ease;
+        }
+        .container {
+            max-width: 720px;
+            width: 100%;
+            background: var(--bg2);
+            border-radius: 28px;
+            padding: 20px 16px;
+            border: 2px solid rgba(239, 68, 68, 0.15);
+            transition: background 0.3s ease, border 0.3s ease;
+            box-shadow: 0 8px 32px var(--shadow);
+            margin: 50px 0 20px;
+            position: relative;
+        }
+        .container::before {
+            content: '📏';
+            position: absolute;
+            top: -12px;
+            right: 20px;
+            font-size: 28px;
+            background: var(--bg2);
+            padding: 0 10px;
+            border-radius: 12px;
+        }
+        .theme-toggle {
+            position: fixed;
+            top: 16px;
+            right: 16px;
+            z-index: 100;
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: 40px;
+            padding: 6px 12px;
+            color: var(--text);
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 16px var(--shadow);
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 14px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(239, 68, 68, 0.15);
+        }
+        .header h1 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text);
+        }
+        .header h1 .highlight {
+            color: #ef4444;
+        }
+        .header h1 span {
+            font-size: 11px;
+            font-weight: 400;
+            background: rgba(239, 68, 68, 0.1);
+            padding: 2px 12px;
+            border-radius: 40px;
+            color: #ef4444;
+            display: inline-block;
+        }
+        .header .badge {
+            background: #ef4444;
+            color: white;
+            padding: 4px 14px;
+            border-radius: 40px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+        .name-bar {
+            background: var(--bg3);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 6px 12px;
+            margin-bottom: 8px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 6px;
+        }
+        .name-bar .label {
+            font-weight: 600;
+            font-size: 12px;
+            color: var(--text2);
+        }
+        .name-bar .label span {
+            color: #ef4444;
+            font-size: 13px;
+            font-weight: 700;
+        }
+        .name-bar input {
+            padding: 4px 10px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            background: var(--bg3);
+            color: var(--text);
+            font-size: 13px;
+            outline: none;
+            min-width: 80px;
+            width: 100px;
+        }
+        .name-bar input:focus {
+            border-color: #ef4444;
+        }
+        .name-bar .btn-name {
+            padding: 4px 14px;
+            border-radius: 20px;
+            border: none;
+            background: #ef4444;
+            color: white;
+            font-weight: 600;
+            font-size: 12px;
+            cursor: pointer;
+        }
+        .btn-change {
+            background: var(--bg3);
+            border: 1px solid var(--border);
+            color: var(--text2);
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            cursor: pointer;
+            margin-bottom: 8px;
+            display: inline-block;
+        }
+        .exam-bar {
+            background: var(--bg3);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 8px 12px;
+            margin-bottom: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 6px;
+        }
+        .exam-bar .info {
+            font-weight: 600;
+            font-size: 11px;
+            color: var(--text2);
+        }
+        .exam-bar .info span {
+            background: var(--bg3);
+            padding: 1px 8px;
+            border-radius: 40px;
+            color: var(--text);
+            font-weight: 700;
+        }
+        .exam-bar .btn-exam {
+            border: none;
+            padding: 4px 12px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 11px;
+            cursor: pointer;
+            background: var(--bg3);
+            color: var(--text2);
+            transition: all 0.3s ease;
+        }
+        .exam-bar .btn-exam.active {
+            background: #ef4444;
+            color: white;
+        }
+        .exam-bar .student-greeting {
+            color: #ef4444;
+            font-size: 12px;
+        }
+        .exam-bar .timer {
+            color: var(--warning);
+            font-weight: 700;
+            font-size: 14px;
+            min-width: 40px;
+            text-align: center;
+        }
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            justify-content: center;
+            padding: 8px 6px;
+            background: var(--bg3);
+            border-radius: 12px;
+            margin-bottom: 8px;
+            border: 1px solid var(--border);
+        }
+        .tool-btn {
+            padding: 5px 8px;
+            border: 2px solid transparent;
+            border-radius: 30px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            background: var(--bg3);
+            color: var(--text3);
+            flex: 1 1 auto;
+            min-width: 40px;
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+        .tool-btn.active-tool {
+            border-color: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text);
+        }
+        .tool-btn.tool-subject {
+            border-color: #ef4444;
+            color: #fca5a5;
+        }
+        .tool-btn.tool-subject.active-tool {
+            background: #ef4444;
+            color: white;
+        }
+        .tool-btn.tool-predicate {
+            border-color: #3b82f6;
+            color: #93c5fd;
+        }
+        .tool-btn.tool-predicate.active-tool {
+            background: #3b82f6;
+            color: white;
+        }
+        .tool-btn.tool-object {
+            border-color: #ef4444;
+            color: #fca5a5;
+            border-style: dashed;
+        }
+        .tool-btn.tool-object.active-tool {
+            background: #ef4444;
+            color: white;
+        }
+        .tool-btn.tool-circumstance {
+            border-color: #22c55e;
+            color: #86efac;
+            border-style: dashed;
+        }
+        .tool-btn.tool-circumstance.active-tool {
+            background: #22c55e;
+            color: white;
+        }
+        .tool-btn.tool-definition {
+            border-color: #eab308;
+            color: #fcd34d;
+            border-style: dotted;
+        }
+        .tool-btn.tool-definition.active-tool {
+            background: #eab308;
+            color: white;
+        }
+        .tool-btn.tool-erase {
+            border-color: #6b7280;
+            color: #9ca3af;
+        }
+        .tool-btn.tool-erase.active-tool {
+            background: #6b7280;
+            color: white;
+        }
+        .counter {
+            font-size: 11px;
+            color: var(--text3);
+            margin-bottom: 6px;
+            text-align: center;
+        }
+        .counter span {
+            font-weight: 700;
+            color: var(--text2);
+        }
+        .sentence-block {
+            padding: 14px 10px;
+            background: var(--bg3);
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            margin-bottom: 8px;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        .sentence-text {
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--text);
+            line-height: 2.6;
+            padding: 4px 0;
+            width: 100%;
+            text-align: center;
+            white-space: nowrap;
+        }
+        .word-wrapper {
+            display: inline-block;
+            text-align: center;
+            margin: 0 1px;
+            vertical-align: top;
+            position: relative;
+        }
+        .word {
+            display: inline-block;
+            padding: 1px 3px;
+            margin: 0 1px;
+            border-radius: 2px;
+            cursor: pointer;
+            padding-bottom: 5px;
+            color: var(--text);
+            font-size: 22px;
+            transition: all 0.3s ease;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .punct {
+            display: inline-block;
+            margin: 0 1px;
+            vertical-align: bottom;
+            font-size: 22px;
+            color: var(--text3);
+        }
+        .word-subject {
+            border-bottom: 4px solid #ef4444;
+        }
+        .word-predicate {
+            border-bottom: 4px solid #3b82f6;
+        }
+        .word-predicate::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: #3b82f6;
+        }
+        .word-object {
+            border-bottom: 4px dashed #ef4444;
+        }
+        .word-circumstance {
+            border-bottom: 4px solid #22c55e;
+            border-image: repeating-linear-gradient(to right, #22c55e 0px, #22c55e 4px, transparent 4px, transparent 6px, #22c55e 6px, #22c55e 8px, transparent 8px, transparent 10px) 1;
+            border-image-slice: 1;
+        }
+        .word-definition {
+            text-decoration: underline wavy #eab308 4px;
+            text-underline-offset: 8px;
+            padding-bottom: 2px;
+        }
+        .word-clear {
+            border-bottom: none !important;
+            text-decoration: none !important;
+        }
+        .check-result {
+            margin-top: 6px;
+            padding: 8px 12px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 600;
+            display: none;
+        }
+        .check-result.show {
+            display: block;
+        }
+        .check-result.success {
+            background: rgba(16, 185, 129, 0.1);
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.12);
+        }
+        .check-result.fail {
+            background: rgba(239, 68, 68, 0.08);
+            color: #f87171;
+            border: 1px solid rgba(239, 68, 68, 0.1);
+        }
+        .check-result.partial {
+            background: rgba(251, 191, 36, 0.08);
+            color: #fbbf24;
+            border: 1px solid rgba(251, 191, 36, 0.1);
+        }
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            margin-top: 8px;
+            justify-content: center;
+        }
+        .btn {
+            border: none;
+            padding: 5px 12px;
+            border-radius: 60px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            background: var(--bg3);
+            color: var(--text2);
+            flex: 1 1 auto;
+            min-width: 35px;
+            text-align: center;
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .btn:active {
+            transform: scale(0.95);
+        }
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+        .btn-primary {
+            background: #ef4444;
+            color: white;
+        }
+        .btn-print {
+            background: #1a6b8a;
+            color: white;
+        }
+        .btn-hint {
+            background: #8b5cf6;
+            color: white;
+        }
+        .btn-speak {
+            background: #14b8a6;
+            color: white;
+        }
+        .status-bar {
+            margin-top: 8px;
+            padding: 5px 10px;
+            background: var(--bg3);
+            border-radius: 12px;
+            font-size: 10px;
+            color: var(--text3);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid var(--border);
+        }
+        .status-bar .stats span {
+            font-weight: 700;
+        }
+        .stat-subject {
+            color: #f87171;
+        }
+        .stat-predicate {
+            color: #60a5fa;
+        }
+        .stat-object {
+            color: #f87171;
+        }
+        .stat-circumstance {
+            color: #34d399;
+        }
+        .stat-definition {
+            color: #fbbf24;
+        }
+        .diploma-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(16px);
+            z-index: 10000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 16px;
+        }
+        .diploma-overlay.open {
+            display: flex;
+        }
+        .diploma {
+            background: var(--card);
+            border-radius: 20px;
+            max-width: 480px;
+            width: 100%;
+            padding: 24px 18px;
+            text-align: center;
+            border: 1px solid var(--border);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .diploma .seal {
+            font-size: 32px;
+            display: block;
+        }
+        .diploma .medal {
+            font-size: 40px;
+            display: block;
+            margin-bottom: 4px;
+        }
+        .diploma .type-badge {
+            display: inline-block;
+            padding: 2px 12px;
+            border-radius: 40px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+        .diploma .type-badge.diploma {
+            background: rgba(16, 185, 129, 0.1);
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.12);
+        }
+        .diploma .type-badge.certificate {
+            background: rgba(251, 191, 36, 0.1);
+            color: #fbbf24;
+            border: 1px solid rgba(251, 191, 36, 0.12);
+        }
+        .diploma .type-badge.support {
+            background: rgba(99, 102, 241, 0.1);
+            color: #818cf8;
+            border: 1px solid rgba(99, 102, 241, 0.12);
+        }
+        .diploma h2 {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--text);
+        }
+        .diploma .subtitle {
+            font-size: 12px;
+            color: var(--text2);
+            margin-bottom: 8px;
+        }
+        .diploma .student-name {
+            font-size: 24px;
+            font-weight: 700;
+            color: #ef4444;
+            background: var(--bg3);
+            padding: 4px 16px;
+            border-radius: 10px;
+            display: inline-block;
+            margin: 4px 0 8px;
+            border: 1px solid rgba(239, 68, 68, 0.1);
+        }
+        .diploma .grade {
+            font-size: 44px;
+            font-weight: 800;
+            color: var(--text);
+        }
+        .diploma .grade-label {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text);
+        }
+        .diploma .grade-label.success {
+            color: #34d399;
+        }
+        .diploma .grade-label.fail {
+            color: #fbbf24;
+        }
+        .diploma .stats {
+            display: flex;
+            justify-content: center;
+            gap: 14px;
+            margin: 8px 0;
+            font-size: 12px;
+            color: var(--text2);
+        }
+        .diploma .stats span {
+            font-weight: 700;
+            color: var(--text);
+            font-size: 14px;
+        }
+        .diploma .stats .correct {
+            color: #34d399;
+        }
+        .diploma .stats .wrong {
+            color: #f87171;
+        }
+        .diploma .message {
+            font-size: 13px;
+            color: var(--text2);
+            padding: 10px;
+            background: var(--bg3);
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            line-height: 1.5;
+        }
+        .diploma .message strong {
+            color: var(--text);
+        }
+        .diploma .actions {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+        .diploma .actions .btn {
+            min-width: 80px;
+        }
+        .welcome-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(20px);
+            z-index: 999999;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .welcome-overlay.open {
+            display: flex;
+        }
+        .welcome-card {
+            max-width: 420px;
+            width: 100%;
+            background: var(--card);
+            border-radius: 32px;
+            padding: 40px 30px 35px;
+            text-align: center;
+            border: 2px solid rgba(239, 68, 68, 0.15);
+            box-shadow: 0 30px 80px var(--shadow);
+            animation: welcomePop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        @keyframes welcomePop {
+            from {
+                transform: scale(0.7);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        .welcome-card .emoji-big {
+            font-size: 64px;
+            display: block;
+            margin-bottom: 8px;
+        }
+        .welcome-card h1 {
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--text);
+        }
+        .welcome-card h1 span {
+            color: #ef4444;
+        }
+        .welcome-card .subtitle {
+            font-size: 14px;
+            color: var(--text2);
+            margin-bottom: 20px;
+        }
+        .welcome-card input {
+            width: 100%;
+            padding: 14px 18px;
+            border-radius: 16px;
+            border: 2px solid var(--border);
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--text);
+            outline: none;
+            text-align: center;
+            background: var(--bg3);
+        }
+        .welcome-card input:focus {
+            border-color: #ef4444;
+        }
+        .welcome-card .btn-start {
+            width: 100%;
+            padding: 14px;
+            border-radius: 16px;
+            border: none;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .welcome-card .btn-start:active {
+            transform: scale(0.97);
+        }
+        .welcome-card .hint {
+            font-size: 12px;
+            color: var(--text3);
+            margin-top: 12px;
+        }
+        .toast {
+            position: fixed;
+            bottom: 16px;
+            left: 50%;
+            transform: translateX(-50%) translateY(80px);
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(12px);
+            color: #ffffff;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 12px;
+            z-index: 2000;
+            opacity: 0;
+            transition: all 0.4s ease;
+            pointer-events: none;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+        .toast.success {
+            background: rgba(16, 185, 129, 0.15);
+            color: #34d399;
+        }
+        .toast.error {
+            background: rgba(239, 68, 68, 0.12);
+            color: #f87171;
+        }
+        .toast.exam {
+            background: rgba(251, 191, 36, 0.12);
+            color: #fbbf24;
+        }
+        .confetti-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            overflow: hidden;
+        }
+        .confetti {
+            position: absolute;
+            top: -10px;
+            animation: confettiFall linear forwards;
+        }
+        @keyframes confettiFall {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(110vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width:480px) {
+            .container {
+                padding: 12px 10px;
+                border-radius: 20px;
+                margin-top: 40px;
+            }
+            .sentence-text {
+                font-size: 18px;
+                line-height: 2.2;
+            }
+            .word {
+                font-size: 18px;
+            }
+            .punct {
+                font-size: 18px;
+            }
+            .header h1 {
+                font-size: 17px;
+            }
+            .tool-btn {
+                font-size: 9px;
+                padding: 4px 6px;
+                min-width: 30px;
+            }
+            .btn {
+                font-size: 10px;
+                padding: 4px 8px;
+                min-width: 30px;
+            }
+            .name-bar input {
+                width: 70px;
+                font-size: 12px;
+            }
+            .exam-bar .info {
+                font-size: 10px;
+            }
+            .diploma {
+                padding: 16px 12px;
+            }
+            .diploma .student-name {
+                font-size: 20px;
+            }
+            .diploma .grade {
+                font-size: 36px;
+            }
+            .welcome-card {
+                padding: 24px 18px 20px;
+            }
+            .welcome-card h1 {
+                font-size: 20px;
+            }
+            .welcome-card .emoji-big {
+                font-size: 44px;
+            }
+            .welcome-card input {
+                font-size: 16px;
+                padding: 12px 14px;
+            }
+            .welcome-card .btn-start {
+                font-size: 16px;
+                padding: 12px;
+            }
+            .theme-toggle {
+                top: 8px;
+                right: 8px;
+                padding: 4px 10px;
+                font-size: 16px;
+            }
+            .container::before {
+                font-size: 22px;
+                top: -10px;
+                right: 14px;
+            }
+        }
+
+        @media print {
+            .controls,
+            .toolbar,
+            .exam-bar,
+            .name-bar,
+            .status-bar,
+            .btn,
+            .toast,
+            .confetti-container,
+            .welcome-overlay,
+            .theme-toggle,
+            .container::before {
+                display: none !important;
+            }
+            .container {
+                background: white !important;
+                border: 1px solid #ccc !important;
+                box-shadow: none !important;
+                margin: 0 !important;
+                padding: 20px !important;
+            }
+            .sentence-text {
+                color: #1a2a4a !important;
+            }
+            .word {
+                color: #1a2a4a !important;
+            }
+            .diploma-overlay {
+                position: static !important;
+                background: white !important;
+                backdrop-filter: none !important;
+                padding: 0 !important;
+                display: flex !important;
+                min-height: 100vh;
+            }
+            .diploma {
+                background: white !important;
+                border: 2px solid #dce3ed !important;
+                box-shadow: none !important;
+            }
+            .diploma h2 {
+                color: #1a2a4a !important;
+            }
+            .diploma .student-name {
+                color: #1a2a4a !important;
+                background: #f5f5f5 !important;
+            }
+            .diploma .grade {
+                color: #1a2a4a !important;
+            }
+            .diploma .grade-label {
+                color: #1a2a4a !important;
+            }
+            .diploma .message {
+                color: #333 !important;
+                background: #f5f5f5 !important;
+            }
+            .diploma .stats {
+                color: #666 !important;
+            }
+            .diploma .stats span {
+                color: #333 !important;
+            }
+            .diploma .actions {
+                display: none !important;
+            }
+            body {
+                background: white !important;
+                padding: 0 !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">🌙</button>
+
+    <div class="container">
+        <div class="header">
+            <h1>📏 <span class="highlight">Разбери</span> предложение <span>4 класс</span></h1>
+            <span class="badge">50 предложений</span>
+        </div>
+
+        <div class="name-bar">
+            <div class="label">👤 <span id="studentNameDisplay">не указано</span></div>
+            <div style="display:flex; gap:4px; align-items:center; flex-wrap:wrap;">
+                <input type="text" id="studentNameInput" placeholder="Имя..." maxlength="20" />
+                <button class="btn-name" onclick="setStudentName()">✅</button>
+            </div>
+        </div>
+
+        <div style="text-align:center; margin-bottom:6px;">
+            <button class="btn-change" onclick="showWelcomeAgain()">🔄 Сменить имя</button>
+        </div>
+
+        <div class="exam-bar">
+            <div class="info">
+                📝 <span id="examModeLabel">Тренировка</span>
+                | ✅ <span id="examCorrect">0</span>
+                | ❌ <span id="examWrong">0</span>
+                | 📊 <span id="examTotal">0</span>
+                <span id="examStudentGreeting" class="student-greeting" style="display:none;"></span>
+                <span class="timer" id="examTimer">⏱️ 0с</span>
+            </div>
+            <div style="display:flex; gap:4px; flex-wrap:wrap;">
+                <button class="btn-exam" id="examToggleBtn" onclick="toggleExamMode()">🎯 Экзамен</button>
+                <button class="btn-exam" onclick="resetExamStats()" style="background:rgba(255,255,255,0.04);">🔄</button>
+            </div>
+        </div>
+
+        <div class="toolbar">
+            <button class="tool-btn tool-subject active-tool" data-tool="subject" onclick="setTool('subject')">Подлежащее</button>
+            <button class="tool-btn tool-predicate" data-tool="predicate" onclick="setTool('predicate')">Сказуемое</button>
+            <button class="tool-btn tool-object" data-tool="object" onclick="setTool('object')">Дополнение</button>
+            <button class="tool-btn tool-circumstance" data-tool="circumstance" onclick="setTool('circumstance')">Обстоятельство</button>
+            <button class="tool-btn tool-definition" data-tool="definition" onclick="setTool('definition')">Определение</button>
+            <button class="tool-btn tool-erase" data-tool="erase" onclick="setTool('erase')">🧹</button>
+        </div>
+
+        <div class="counter">
+            Предложение <span id="currentNum">1</span> из <span id="totalNum">50</span>
+            <span id="examCounter" style="display:none; margin-left:8px; color:#fbbf24;">🎯 Экзамен</span>
+        </div>
+
+        <div id="worksheet">
+            <div class="sentence-block">
+                <div class="sentence-text" id="sentenceText"></div>
+            </div>
+            <div class="check-result" id="result"></div>
+        </div>
+
+        <div class="controls">
+            <button class="btn btn-primary" onclick="prevSentence()">◀</button>
+            <button class="btn btn-primary" onclick="nextSentence()">▶</button>
+            <button class="btn btn-success" onclick="checkAll()">✅ Проверить</button>
+            <button class="btn btn-danger" onclick="clearAll()">🗑️</button>
+            <button class="btn btn-hint" onclick="showHint()">💡</button>
+            <button class="btn btn-speak" onclick="speakSentence()">🔊</button>
+            <button class="btn btn-print" onclick="window.print()">🖨️</button>
+        </div>
+
+        <div class="status-bar">
+            <span style="color:var(--text3);">👆 Кликни на слово</span>
+            <span class="stats">
+                <span class="stat-subject">▬</span> <span id="countSubject">0</span>
+                <span class="stat-predicate">▬▬</span> <span id="countPredicate">0</span>
+                <span class="stat-object">- - -</span> <span id="countObject">0</span>
+                <span class="stat-circumstance">-·-·</span> <span id="countCircumstance">0</span>
+                <span class="stat-definition">~~~~</span> <span id="countDefinition">0</span>
+            </span>
+        </div>
+    </div>
+
+    <div class="welcome-overlay" id="welcomeOverlay">
+        <div class="welcome-card">
+            <span class="emoji-big">📏</span>
+            <h1>Разбери <span>предложение</span>!</h1>
+            <p class="subtitle">Тренажёр по русскому языку для 4 класса 😊</p>
+            <div class="name-input-wrap">
+                <input type="text" id="welcomeNameInput" placeholder="Введите имя..." maxlength="20" />
+                <button class="btn-start" id="welcomeStartBtn">🚀 Начать</button>
+            </div>
+            <p class="hint">Имя сохранится для дипломов 📜</p>
+        </div>
+    </div>
+
+    <div class="confetti-container" id="confettiContainer"></div>
+
+    <div class="diploma-overlay" id="diplomaOverlay">
+        <div class="diploma" id="diplomaContent">
+            <span class="seal" id="diplomaSeal">🏅</span>
+            <span class="medal" id="diplomaMedal">🎓</span>
+            <div id="diplomaTypeBadge" class="type-badge diploma">🏆 ДИПЛОМ</div>
+            <h2 id="diplomaTitle">Диплом</h2>
+            <div class="subtitle">За успешное прохождение экзамена по русскому языку</div>
+            <div class="student-name" id="diplomaStudentName">Ученик</div>
+            <div class="grade" id="diplomaGrade">5</div>
+            <div class="grade-label" id="diplomaGradeLabel">Отлично!</div>
+            <div class="stats">
+                <div>✅ <span class="correct" id="diplomaCorrect">0</span></div>
+                <div>❌ <span class="wrong" id="diplomaWrong">0</span></div>
+                <div>📊 <span id="diplomaTotal">0</span></div>
+            </div>
+            <div class="message" id="diplomaMessage">Текст</div>
+            <div class="actions">
+                <button class="btn btn-primary" onclick="closeDiploma()">✕</button>
+                <button class="btn btn-print" onclick="printDiploma()">🖨️</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // ============================================================
+        //  50 ГОТОВЫХ ПРЕДЛОЖЕНИЙ (ПРАВИЛЬНЫЕ!)
+        // ============================================================
+
+        var ALL_SENTENCES = [{
+            text: 'Мама купила дочке красивое платье.',
+            subject: 'Мама',
+            predicate: 'купила',
+            object: 'платье, дочке',
+            circumstance: '—',
+            definition: 'красивое'
+        }, {
+            text: 'Мы встретились у старого входа.',
+            subject: 'Мы',
+            predicate: 'встретились',
+            object: '—',
+            circumstance: 'у входа',
+            definition: 'старого'
+        }, {
+            text: 'Он посмотрел на меня с доброй улыбкой.',
+            subject: 'Он',
+            predicate: 'посмотрел',
+            object: 'на меня',
+            circumstance: 'с улыбкой',
+            definition: 'доброй'
+        }, {
+            text: 'Вечером мы долго говорили о летнем путешествии.',
+            subject: 'мы',
+            predicate: 'говорили',
+            object: 'о путешествии',
+            circumstance: 'вечером, долго',
+            definition: 'летнем'
+        }, {
+            text: 'Больной пил тёплую воду.',
+            subject: 'Больной',
+            predicate: 'пил',
+            object: 'воду',
+            circumstance: '—',
+            definition: 'тёплую'
+        }, {
+            text: 'Пушистый кот громко пил молоко на кухне.',
+            subject: 'кот',
+            predicate: 'пил',
+            object: 'молоко',
+            circumstance: 'громко, на кухне',
+            definition: 'Пушистый'
+        }, {
+            text: 'Бабушка испекла вкусный пирог.',
+            subject: 'Бабушка',
+            predicate: 'испекла',
+            object: 'пирог',
+            circumstance: '—',
+            definition: 'вкусный'
+        }, {
+            text: 'Завтра мы поедем к синему морю.',
+            subject: 'мы',
+            predicate: 'поедем',
+            object: '—',
+            circumstance: 'завтра, к морю',
+            definition: 'синему'
+        }, {
+            text: 'Я положил новую книгу на стол.',
+            subject: 'Я',
+            predicate: 'положил',
+            object: 'книгу',
+            circumstance: 'на стол',
+            definition: 'новую'
+        }, {
+            text: 'Маленькие дети весело играли в парке.',
+            subject: 'дети',
+            predicate: 'играли',
+            object: '—',
+            circumstance: 'весело, в парке',
+            definition: 'Маленькие'
+        }, {
+            text: 'Серый волк быстро бежал по тропе.',
+            subject: 'волк',
+            predicate: 'бежал',
+            object: '—',
+            circumstance: 'быстро, по тропе',
+            definition: 'Серый'
+        }, {
+            text: 'Учительница объяснила трудное правило ученикам.',
+            subject: 'Учительница',
+            predicate: 'объяснила',
+            object: 'правило, ученикам',
+            circumstance: '—',
+            definition: 'трудное'
+        }, {
+            text: 'Вчера мы смотрели интересный фильм.',
+            subject: 'мы',
+            predicate: 'смотрели',
+            object: 'фильм',
+            circumstance: 'вчера',
+            definition: 'интересный'
+        }, {
+            text: 'Дедушка посадил молодую яблоню в саду.',
+            subject: 'Дедушка',
+            predicate: 'посадил',
+            object: 'яблоню',
+            circumstance: 'в саду',
+            definition: 'молодую'
+        }, {
+            text: 'Мы купили спелые арбузы на базаре.',
+            subject: 'Мы',
+            predicate: 'купили',
+            object: 'арбузы',
+            circumstance: 'на базаре',
+            definition: 'спелые'
+        }, {
+            text: 'Прозрачный ручей звонко журчал в овраге.',
+            subject: 'ручей',
+            predicate: 'журчал',
+            object: '—',
+            circumstance: 'звонко, в овраге',
+            definition: 'Прозрачный'
+        }, {
+            text: 'Брат подарил мне красивую открытку.',
+            subject: 'Брат',
+            predicate: 'подарил',
+            object: 'открытку, мне',
+            circumstance: '—',
+            definition: 'красивую'
+        }, {
+            text: 'Тёмные тучи медленно плыли по небу.',
+            subject: 'тучи',
+            predicate: 'плыли',
+            object: '—',
+            circumstance: 'медленно, по небу',
+            definition: 'Тёмные'
+        }, {
+            text: 'Осторожно котёнок трогал лапкой мягкий клубок.',
+            subject: 'котёнок',
+            predicate: 'трогал',
+            object: 'клубок, лапкой',
+            circumstance: 'Осторожно',
+            definition: 'мягкий'
+        }, {
+            text: 'Маленькая девочка громко пела песню на сцене.',
+            subject: 'девочка',
+            predicate: 'пела',
+            object: 'песню',
+            circumstance: 'громко, на сцене',
+            definition: 'Маленькая'
+        }, {
+            text: 'Добрый врач вылечил больного кота.',
+            subject: 'врач',
+            predicate: 'вылечил',
+            object: 'кота',
+            circumstance: '—',
+            definition: 'Добрый, больного'
+        }, {
+            text: 'Мы быстро дошли до речки.',
+            subject: 'Мы',
+            predicate: 'дошли',
+            object: '—',
+            circumstance: 'быстро, до речки',
+            definition: '—'
+        }, {
+            text: 'Внимательный ученик решил сложную задачу у доски.',
+            subject: 'ученик',
+            predicate: 'решил',
+            object: 'задачу',
+            circumstance: 'у доски',
+            definition: 'Внимательный, сложную'
+        }, {
+            text: 'Старый пёс лениво лежал на крыльце.',
+            subject: 'пёс',
+            predicate: 'лежал',
+            object: '—',
+            circumstance: 'лениво, на крыльце',
+            definition: 'Старый'
+        }, {
+            text: 'Яркое солнце осветило мокрую землю.',
+            subject: 'солнце',
+            predicate: 'осветило',
+            object: 'землю',
+            circumstance: '—',
+            definition: 'Яркое, мокрую'
+        }, {
+            text: 'На уроке мы писали трудный диктант.',
+            subject: 'мы',
+            predicate: 'писали',
+            object: 'диктант',
+            circumstance: 'На уроке',
+            definition: 'трудный'
+        }, {
+            text: 'В лесу дети собирали грибы и ягоды.',
+            subject: 'дети',
+            predicate: 'собирали',
+            object: 'грибы, ягоды',
+            circumstance: 'В лесу',
+            definition: '—'
+        }, {
+            text: 'Художник нарисовал красивый пейзаж.',
+            subject: 'Художник',
+            predicate: 'нарисовал',
+            object: 'пейзаж',
+            circumstance: '—',
+            definition: 'красивый'
+        }, {
+            text: 'Повар приготовил вкусный ужин.',
+            subject: 'Повар',
+            predicate: 'приготовил',
+            object: 'ужин',
+            circumstance: '—',
+            definition: 'вкусный'
+        }, {
+            text: 'Спортсмен победил в трудных соревнованиях.',
+            subject: 'Спортсмен',
+            predicate: 'победил',
+            object: '—',
+            circumstance: 'в соревнованиях',
+            definition: 'трудных'
+        }, {
+            text: 'Мы часто ходим в этот парк.',
+            subject: 'Мы',
+            predicate: 'ходим',
+            object: '—',
+            circumstance: 'часто, в парк',
+            definition: 'этот'
+        }, {
+            text: 'Солнце село, и наступил тёплый вечер.',
+            subject: 'Солнце, вечер',
+            predicate: 'село, наступил',
+            object: '—',
+            circumstance: '—',
+            definition: 'тёплый'
+        }, {
+            text: 'Ветер стих, а дождь продолжал стучать по крыше.',
+            subject: 'Ветер, дождь',
+            predicate: 'стих, продолжал стучать',
+            object: '—',
+            circumstance: 'по крыше',
+            definition: '—'
+        }, {
+            text: 'Мама готовила ужин, а папа читал газету.',
+            subject: 'Мама, папа',
+            predicate: 'готовила, читал',
+            object: 'ужин, газету',
+            circumstance: '—',
+            definition: '—'
+        }, {
+            text: 'Бабушка вязала шарф, а внучка рисовала рисунок.',
+            subject: 'Бабушка, внучка',
+            predicate: 'вязала, рисовала',
+            object: 'шарф, рисунок',
+            circumstance: '—',
+            definition: '—'
+        }, {
+            text: 'Птицы улетели на юг, но многие остались на зиму.',
+            subject: 'Птицы, многие',
+            predicate: 'улетели, остались',
+            object: '—',
+            circumstance: 'на юг, на зиму',
+            definition: '—'
+        }, {
+            text: 'Красивая девочка читала интересную книгу.',
+            subject: 'девочка',
+            predicate: 'читала',
+            object: 'книгу',
+            circumstance: '—',
+            definition: 'Красивая, интересную'
+        }, {
+            text: 'Маленький котёнок весело играл с клубком.',
+            subject: 'котёнок',
+            predicate: 'играл',
+            object: 'с клубком',
+            circumstance: 'весело',
+            definition: 'Маленький'
+        }, {
+            text: 'Добрая бабушка связала тёплый шарф внуку.',
+            subject: 'бабушка',
+            predicate: 'связала',
+            object: 'шарф, внуку',
+            circumstance: '—',
+            definition: 'Добрая, тёплый'
+        }, {
+            text: 'Высокий дуб рос у старого забора.',
+            subject: 'дуб',
+            predicate: 'рос',
+            object: '—',
+            circumstance: 'у забора',
+            definition: 'Высокий, старого'
+        }, {
+            text: 'Быстрый поезд мчался по широкому полю.',
+            subject: 'поезд',
+            predicate: 'мчался',
+            object: '—',
+            circumstance: 'по полю',
+            definition: 'Быстрый, широкому'
+        }, {
+            text: 'Мама мыла грязную посуду на кухне.',
+            subject: 'Мама',
+            predicate: 'мыла',
+            object: 'посуду',
+            circumstance: 'на кухне',
+            definition: 'грязную'
+        }, {
+            text: 'Серёжа нашёл маленького ёжика в траве.',
+            subject: 'Серёжа',
+            predicate: 'нашёл',
+            object: 'ёжика',
+            circumstance: 'в траве',
+            definition: 'маленького'
+        }, {
+            text: 'Анна написала длинное письмо подруге.',
+            subject: 'Анна',
+            predicate: 'написала',
+            object: 'письмо, подруге',
+            circumstance: '—',
+            definition: 'длинное'
+        }, {
+            text: 'Красивая птица пела звонкую песню на ветке.',
+            subject: 'птица',
+            predicate: 'пела',
+            object: 'песню',
+            circumstance: 'на ветке',
+            definition: 'Красивая, звонкую'
+        }, {
+            text: 'Дети лепили снежную бабу во дворе.',
+            subject: 'Дети',
+            predicate: 'лепили',
+            object: 'бабу',
+            circumstance: 'во дворе',
+            definition: 'снежную'
+        }, {
+            text: 'Ученик сделал домашнюю работу.',
+            subject: 'Ученик',
+            predicate: 'сделал',
+            object: 'работу',
+            circumstance: '—',
+            definition: 'домашнюю'
+        }, {
+            text: 'Витя подарил маме красивый букет.',
+            subject: 'Витя',
+            predicate: 'подарил',
+            object: 'букет, маме',
+            circumstance: '—',
+            definition: 'красивый'
+        }, {
+            text: 'На столе стояла ваза с цветами.',
+            subject: 'ваза',
+            predicate: 'стояла',
+            object: 'с цветами',
+            circumstance: 'На столе'
+        }, {
+            text: 'В саду распустились ароматные пионы и розы.',
+            subject: 'пионы, розы',
+            predicate: 'распустились',
+            object: '—',
+            circumstance: 'В саду',
+            definition: 'ароматные'
+        }];
+
+        // ============================================================
+        //  СОСТОЯНИЕ
+        // ============================================================
+
+        var sentences = [];
+        var examSentences = [];
+        var currentIndex = 0;
+        var currentTool = 'subject';
+        var currentData = null;
+
+        var examMode = false;
+        var examCorrect = 0;
+        var examWrong = 0;
+        var examTotal = 0;
+        var examAnswered = false;
+        var examCompleted = false;
+
+        var studentName = '';
+        var EXAM_COUNT = 10;
+        var examTimerSeconds = 0;
+        var examTimerInterval = null;
+        var isLightTheme = false;
+        var examUsedIndices = [];
+
+        // ============================================================
+        //  ИНИЦИАЛИЗАЦИЯ
+        // ============================================================
+
+        function init() {
+            sentences = JSON.parse(JSON.stringify(ALL_SENTENCES));
+            examSentences = [];
+            currentIndex = 0;
+
+            var savedTheme = localStorage.getItem('underline_theme');
+            if (savedTheme === 'light') {
+                isLightTheme = true;
+                document.body.classList.add('light-theme');
+                document.getElementById('themeToggle').textContent = '☀️';
+            }
+
+            document.getElementById('totalNum').textContent = sentences.length;
+            renderSentence();
+            updateExamStats();
+
+            var savedName = localStorage.getItem('underline_studentName');
+            if (savedName) {
+                document.getElementById('welcomeNameInput').value = savedName;
+                studentName = savedName;
+                document.getElementById('studentNameDisplay').textContent = savedName;
+                document.getElementById('studentNameInput').value = savedName;
+                updateNameGreeting();
+            } else {
+                document.getElementById('welcomeOverlay').classList.add('open');
+            }
+
+            document.getElementById('welcomeNameInput').addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') startApp();
+            });
+            document.getElementById('welcomeStartBtn').addEventListener('click', startApp);
+
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'ArrowRight') nextSentence();
+                if (e.key === 'ArrowLeft') prevSentence();
+                if (e.key === 'Enter' && !e.shiftKey) checkAll();
+                if (e.key === 'h' || e.key === 'H') showHint();
+            });
+
+            console.log('📏 Загружено! Предложений:', sentences.length);
+        }
+
+        // ============================================================
+        //  ПРИВЕТСТВИЕ
+        // ============================================================
+
+        function startApp() {
+            var input = document.getElementById('welcomeNameInput');
+            var name = input.value.trim();
+
+            if (!name) {
+                input.style.borderColor = '#ef4444';
+                input.style.boxShadow = '0 0 0 4px rgba(239,68,68,0.15)';
+                showToast('⚠️ Введите имя!', 'error');
+                setTimeout(function() {
+                    input.style.borderColor = 'var(--border)';
+                    input.style.boxShadow = 'none';
+                }, 1500);
+                return;
+            }
+
+            studentName = name;
+            localStorage.setItem('underline_studentName', name);
+            document.getElementById('studentNameDisplay').textContent = name;
+            document.getElementById('studentNameInput').value = name;
+            updateNameGreeting();
+
+            var overlay = document.getElementById('welcomeOverlay');
+            overlay.classList.remove('open');
+            overlay.style.display = 'none';
+
+            showToast('👋 Привет, ' + name + '!', 'success');
+        }
+
+        function showWelcomeAgain() {
+            localStorage.removeItem('underline_studentName');
+            studentName = '';
+            document.getElementById('studentNameDisplay').textContent = 'не указано';
+            document.getElementById('examStudentGreeting').style.display = 'none';
+
+            var overlay = document.getElementById('welcomeOverlay');
+            overlay.style.display = 'flex';
+            overlay.classList.add('open');
+            document.getElementById('welcomeNameInput').value = '';
+            document.getElementById('welcomeNameInput').focus();
+
+            showToast('🔄 Введите новое имя', 'exam');
+        }
+
+        function setStudentName() {
+            var input = document.getElementById('studentNameInput');
+            var name = input.value.trim();
+            if (!name) {
+                showToast('⚠️ Введите имя!', 'error');
+                return;
+            }
+            studentName = name;
+            document.getElementById('studentNameDisplay').textContent = name;
+            localStorage.setItem('underline_studentName', name);
+            updateNameGreeting();
+            showToast('✅ Имя сохранено: ' + name, 'success');
+        }
+
+        function updateNameGreeting() {
+            var greeting = document.getElementById('examStudentGreeting');
+            if (studentName) {
+                greeting.textContent = '👋 ' + studentName;
+                greeting.style.display = 'inline';
+            } else {
+                greeting.style.display = 'none';
+            }
+        }
+
+        // ============================================================
+        //  ФУНКЦИИ ТРЕНАЖЁРА
+        // ============================================================
+
+        function setTool(tool) {
+            currentTool = tool;
+            var btns = document.querySelectorAll('.tool-btn');
+            btns.forEach(function(b) { b.classList.remove('active-tool'); });
+            var btn = document.querySelector('.tool-btn[data-tool="' + tool + '"]');
+            if (btn) btn.classList.add('active-tool');
+        }
+
+        function getWordClass(tool) {
+            var map = {
+                'subject': 'word-subject',
+                'predicate': 'word-predicate',
+                'object': 'word-object',
+                'circumstance': 'word-circumstance',
+                'definition': 'word-definition',
+                'erase': 'word-clear'
+            };
+            return map[tool] || '';
+        }
+
+        function buildSentenceHTML(text) {
+            var parts = text.split(/(\s+)/);
+            var html = '';
+            for (var i = 0; i < parts.length; i++) {
+                var part = parts[i];
+                if (part.trim() === '') {
+                    html += ' ';
+                } else {
+                    var word = part.replace(/[.,!?;:]/g, '');
+                    var punctuation = part.replace(word, '');
+                    if (punctuation) {
+                        html += '<span class="word-wrapper">';
+                        html += '<span class="word" onclick="onWordClick(event)">' + word + '</span>';
+                        html += '</span>';
+                        html += '<span class="punct">' + punctuation + '</span>';
+                    } else {
+                        html += '<span class="word-wrapper">';
+                        html += '<span class="word" onclick="onWordClick(event)">' + word + '</span>';
+                        html += '</span>';
+                    }
+                }
+            }
+            return html;
+        }
+
+        function getCurrentSentences() {
+            return examMode ? examSentences : sentences;
+        }
+
+        function renderSentence() {
+            var currentSentences = getCurrentSentences();
+            if (currentSentences.length === 0) {
+                document.getElementById('sentenceText').innerHTML = 'Нет предложений';
+                return;
+            }
+            if (currentIndex >= currentSentences.length) currentIndex = 0;
+            currentData = currentSentences[currentIndex];
+            document.getElementById('currentNum').textContent = currentIndex + 1;
+            document.getElementById('totalNum').textContent = currentSentences.length;
+            var html = buildSentenceHTML(currentData.text);
+            document.getElementById('sentenceText').innerHTML = html;
+            document.getElementById('result').className = 'check-result';
+            document.getElementById('result').textContent = '';
+            updateStats();
+            examAnswered = false;
+        }
+
+        function nextSentence() {
+            var currentSentences = getCurrentSentences();
+            if (currentSentences.length === 0) return;
+            if (examMode && !examAnswered && !examCompleted) {
+                showToast('⚠️ Сначала проверь!', 'error');
+                return;
+            }
+            if (examMode && examCompleted) {
+                showToast('🎯 Экзамен завершён! Нажми "Сбросить".', 'exam');
+                return;
+            }
+            currentIndex = (currentIndex + 1) % currentSentences.length;
+            renderSentence();
+        }
+
+        function prevSentence() {
+            var currentSentences = getCurrentSentences();
+            if (currentSentences.length === 0) return;
+            if (examMode && !examAnswered && !examCompleted) {
+                showToast('⚠️ Сначала проверь!', 'error');
+                return;
+            }
+            if (examMode && examCompleted) {
+                showToast('🎯 Экзамен завершён! Нажми "Сбросить".', 'exam');
+                return;
+            }
+            currentIndex = (currentIndex - 1 + currentSentences.length) % currentSentences.length;
+            renderSentence();
+        }
+
+        // ============================================================
+        //  ЭКЗАМЕН (БЕЗ ПОВТОРОВ)
+        // ============================================================
+
+        function shuffleArray(arr) {
+            for (var i = arr.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+            }
+            return arr;
+        }
+
+        function pickRandomSentences(count) {
+            var shuffled = shuffleArray([].concat(sentences));
+            return shuffled.slice(0, Math.min(count, shuffled.length));
+        }
+
+        function toggleExamMode() {
+            if (!studentName) {
+                showToast('⚠️ Сначала введите имя!', 'error');
+                return;
+            }
+
+            examMode = !examMode;
+            var btn = document.getElementById('examToggleBtn');
+            var label = document.getElementById('examModeLabel');
+            var counter = document.getElementById('examCounter');
+
+            if (examMode) {
+                if (sentences.length < EXAM_COUNT) {
+                    showToast('⚠️ Не хватает предложений для экзамена!', 'error');
+                    examMode = false;
+                    return;
+                }
+                examSentences = pickRandomSentences(EXAM_COUNT);
+                examUsedIndices = [];
+                currentIndex = 0;
+                examCorrect = 0;
+                examWrong = 0;
+                examTotal = 0;
+                examAnswered = false;
+                examCompleted = false;
+                examTimerSeconds = 0;
+
+                btn.classList.add('active');
+                btn.textContent = '⏹️ Выйти';
+                label.textContent = 'Экзамен 🎯';
+                counter.style.display = 'inline';
+                document.getElementById('examCounter').textContent = '🎯 ' + EXAM_COUNT + ' заданий';
+
+                if (examTimerInterval) clearInterval(examTimerInterval);
+                examTimerInterval = setInterval(function() {
+                    examTimerSeconds++;
+                    document.getElementById('examTimer').textContent = '⏱️ ' + examTimerSeconds + 'с';
+                }, 1000);
+
+                showToast('🎯 Экзамен начался!', 'exam');
+                playSound('exam');
+                clearAll();
+                renderSentence();
+                updateExamStats();
+                closeDiploma();
+                stopConfetti();
+            } else {
+                btn.classList.remove('active');
+                btn.textContent = '🎯 Экзамен';
+                label.textContent = 'Тренировка';
+                counter.style.display = 'none';
+                document.getElementById('examTimer').textContent = '⏱️ 0с';
+                if (examTimerInterval) {
+                    clearInterval(examTimerInterval);
+                    examTimerInterval = null;
+                }
+                showToast('📚 Режим тренировки', 'success');
+                examCompleted = false;
+                examSentences = [];
+                currentIndex = 0;
+                clearAll();
+                renderSentence();
+                closeDiploma();
+                stopConfetti();
+            }
+        }
+
+        function resetExamStats() {
+            examCorrect = 0;
+            examWrong = 0;
+            examTotal = 0;
+            examAnswered = false;
+            examCompleted = false;
+            examTimerSeconds = 0;
+            document.getElementById('examTimer').textContent = '⏱️ 0с';
+            if (examTimerInterval) {
+                clearInterval(examTimerInterval);
+                examTimerInterval = null;
+            }
+            updateExamStats();
+            document.querySelectorAll('.word').forEach(function(el) {
+                el.style.background = '';
+                el.classList.remove('pos-correct', 'pos-wrong', 'pos-missed', 'pos-hint');
+                el.style.opacity = '';
+            });
+            document.getElementById('result').className = 'check-result';
+            document.getElementById('result').textContent = '';
+            closeDiploma();
+            stopConfetti();
+
+            if (examMode) {
+                if (sentences.length < EXAM_COUNT) {
+                    showToast('⚠️ Мало предложений для экзамена!', 'error');
+                    return;
+                }
+                examSentences = pickRandomSentences(EXAM_COUNT);
+                currentIndex = 0;
+                renderSentence();
+                showToast('🔄 Новый набор из ' + EXAM_COUNT + ' предложений!', 'exam');
+            } else {
+                showToast('🔄 Статистика сброшена', 'success');
+            }
+        }
+
+        function updateExamStats() {
+            document.getElementById('examCorrect').textContent = examCorrect;
+            document.getElementById('examWrong').textContent = examWrong;
+            document.getElementById('examTotal').textContent = examTotal;
+        }
+
+        // ============================================================
+        //  ОЗВУЧКА
+        // ============================================================
+
+        function speakSentence() {
+            if (!currentData) return;
+            var text = currentData.text;
+            try {
+                var utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'ru-RU';
+                utterance.rate = 0.85;
+                utterance.pitch = 1;
+                window.speechSynthesis.speak(utterance);
+                showToast('🔊 Озвучивание...', 'exam');
+            } catch (e) {
+                showToast('⚠️ Озвучивание не поддерживается', 'error');
+            }
+        }
+
+        // ============================================================
+        //  ПОДСКАЗКА
+        // ============================================================
+
+        function showHint() {
+            if (!currentData) {
+                showToast('⚠️ Нет предложения', 'error');
+                return;
+            }
+
+            var wrappers = document.querySelectorAll('.word-wrapper');
+            wrappers.forEach(function(wrapper) {
+                var wordEl = wrapper.querySelector('.word');
+                var word = wordEl.textContent;
+
+                var expected = getWordType(word, currentData);
+                if (expected) {
+                    var cls = getWordClass(expected);
+                    if (cls !== 'word-clear') {
+                        wordEl.className = 'word';
+                        wordEl.classList.add(cls);
+                        wordEl.classList.add('pos-hint');
+                        wordEl.style.opacity = '0.6';
+                    }
+                }
+            });
+
+            showToast('💡 Подсказка показана', 'exam');
+            setTimeout(function() {
+                document.querySelectorAll('.pos-hint').forEach(function(el) {
+                    el.style.opacity = '';
+                });
+            }, 3000);
+        }
+
+        // ============================================================
+        //  ЗВУКИ
+        // ============================================================
+
+        function playSound(type) {
+            try {
+                var ctx = new(window.AudioContext || window.webkitAudioContext)();
+                var osc = ctx.createOscillator();
+                var gain = ctx.createGain();
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                gain.gain.value = 0.15;
+
+                if (type === 'correct') {
+                    osc.frequency.value = 880;
+                    osc.type = 'sine';
+                    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
+                    osc.start(ctx.currentTime);
+                    osc.stop(ctx.currentTime + 0.3);
+                    setTimeout(function() {
+                        try {
+                            var ctx2 = new(window.AudioContext || window.webkitAudioContext)();
+                            var osc2 = ctx2.createOscillator();
+                            var gain2 = ctx2.createGain();
+                            osc2.connect(gain2);
+                            gain2.connect(ctx2.destination);
+                            gain2.gain.value = 0.12;
+                            osc2.frequency.value = 1100;
+                            osc2.type = 'sine';
+                            gain2.gain.exponentialRampToValueAtTime(0.01, ctx2.currentTime + 0.2);
+                            osc2.start(ctx2.currentTime);
+                            osc2.stop(ctx2.currentTime + 0.2);
+                        } catch (e) {}
+                    }, 150);
+                } else if (type === 'wrong') {
+                    osc.frequency.value = 300;
+                    osc.type = 'sawtooth';
+                    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.4);
+                    osc.start(ctx.currentTime);
+                    osc.stop(ctx.currentTime + 0.4);
+                } else if (type === 'exam') {
+                    osc.frequency.value = 660;
+                    osc.type = 'sine';
+                    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.15);
+                    osc.start(ctx.currentTime);
+                    osc.stop(ctx.currentTime + 0.15);
+                    setTimeout(function() {
+                        try {
+                            var ctx3 = new(window.AudioContext || window.webkitAudioContext)();
+                            var osc3 = ctx3.createOscillator();
+                            var gain3 = ctx3.createGain();
+                            osc3.connect(gain3);
+                            gain3.connect(ctx3.destination);
+                            gain3.gain.value = 0.12;
+                            osc3.frequency.value = 880;
+                            osc3.type = 'sine';
+                            gain3.gain.exponentialRampToValueAtTime(0.01, ctx3.currentTime + 0.15);
+                            osc3.start(ctx3.currentTime);
+                            osc3.stop(ctx3.currentTime + 0.15);
+                        } catch (e) {}
+                    }, 200);
+                } else if (type === 'finish') {
+                    [523, 659, 784, 1047].forEach(function(freq, idx) {
+                        setTimeout(function() {
+                            try {
+                                var ctx4 = new(window.AudioContext || window.webkitAudioContext)();
+                                var osc4 = ctx4.createOscillator();
+                                var gain4 = ctx4.createGain();
+                                osc4.connect(gain4);
+                                gain4.connect(ctx4.destination);
+                                gain4.gain.value = 0.1;
+                                osc4.frequency.value = freq;
+                                osc4.type = 'sine';
+                                gain4.gain.exponentialRampToValueAtTime(0.01, ctx4.currentTime + 0.2);
+                                osc4.start(ctx4.currentTime);
+                                osc4.stop(ctx4.currentTime + 0.2);
+                            } catch (e) {}
+                        }, idx * 120);
+                    });
+                }
+            } catch (e) {}
+        }
+
+        // ============================================================
+        //  ТЕМА
+        // ============================================================
+
+        function toggleTheme() {
+            isLightTheme = !isLightTheme;
+            document.body.classList.toggle('light-theme', isLightTheme);
+            document.getElementById('themeToggle').textContent = isLightTheme ? '☀️' : '🌙';
+            localStorage.setItem('underline_theme', isLightTheme ? 'light' : 'dark');
+        }
+
+        // ============================================================
+        //  КОНФЕТТИ
+        // ============================================================
+
+        function startConfetti() {
+            var container = document.getElementById('confettiContainer');
+            container.innerHTML = '';
+            var colors = ['#ff6b6b', '#ffd93d', '#6bcb77', '#4d96ff', '#ff6fb7', '#845ec2', '#ff9671', '#00c9a7', '#f472b6',
+                '#34d399', '#60a5fa'
+            ];
+            var shapes = ['■', '●', '▲', '★', '♦', '✦', '♥'];
+
+            for (var i = 0; i < 120; i++) {
+                var el = document.createElement('div');
+                el.className = 'confetti';
+                el.textContent = shapes[Math.floor(Math.random() * shapes.length)];
+                el.style.left = Math.random() * 100 + '%';
+                el.style.color = colors[Math.floor(Math.random() * colors.length)];
+                el.style.fontSize = (Math.random() * 16 + 8) + 'px';
+                el.style.animationDuration = (Math.random() * 2.5 + 2) + 's';
+                el.style.animationDelay = (Math.random() * 2.5) + 's';
+                container.appendChild(el);
+            }
+
+            setTimeout(function() {
+                stopConfetti();
+            }, 5000);
+        }
+
+        function stopConfetti() {
+            document.getElementById('confettiContainer').innerHTML = '';
+        }
+
+        // ============================================================
+        //  ДИПЛОМ
+        // ============================================================
+
+        function showDiploma(correct, wrong, total) {
+            var overlay = document.getElementById('diplomaOverlay');
+            document.getElementById('diplomaCorrect').textContent = correct;
+            document.getElementById('diplomaWrong').textContent = wrong;
+            document.getElementById('diplomaTotal').textContent = total;
+            document.getElementById('diplomaStudentName').textContent = studentName || 'Ученик';
+
+            var gradeText, gradeLabel, message, title, typeBadge, seal, medal;
+
+            if (wrong === 0) {
+                gradeText = '5';
+                gradeLabel = 'Отлично!';
+                title = 'Диплом';
+                typeBadge = '🏆 ДИПЛОМ';
+                seal = '🏅';
+                medal = '🎓';
+                message =
+                    'За успешное выполнение всех заданий экзамена по русскому языку. <br><br> Проявлены <strong>отличные знания</strong> и внимательность. <br><br> Желаем дальнейших успехов в учёбе! 📚✨';
+                setTimeout(startConfetti, 300);
+                playSound('finish');
+            } else if (wrong <= 2) {
+                gradeText = wrong === 1 ? '4' : '3';
+                gradeLabel = wrong === 1 ? 'Хорошо!' : 'Неплохо!';
+                title = 'Грамота';
+                typeBadge = '📜 ГРАМОТА';
+                seal = '🖋️';
+                medal = '📚';
+                message =
+                    'За участие в экзамене по русскому языку. <br><br> Рекомендуется <strong>повторить правила</strong> и продолжить тренировку. <br><br> Упорство и труд приведут к отличным результатам! 💪📖';
+            } else {
+                gradeText = '—';
+                gradeLabel = 'Не сдавайся!';
+                title = '💪 Поддержка';
+                typeBadge = '💪 ПОДДЕРЖКА';
+                seal = '🤗';
+                medal = '🌟';
+                message =
+                    'Не расстраивайся! Ошибки — это часть учёбы. <br><br> <strong>Повтори правила</strong>, потренируйся ещё немного — и у тебя обязательно всё получится! <br><br> Ты сможешь! Вперёд к новым знаниям! 🚀📚';
+            }
+
+            document.getElementById('diplomaSeal').textContent = seal;
+            document.getElementById('diplomaMedal').textContent = medal;
+
+            var badge = document.getElementById('diplomaTypeBadge');
+            badge.textContent = typeBadge;
+            badge.className = 'type-badge';
+            if (wrong === 0) badge.classList.add('diploma');
+            else if (wrong <= 2) badge.classList.add('certificate');
+            else badge.classList.add('support');
+
+            document.getElementById('diplomaTitle').textContent = title;
+            document.getElementById('diplomaGrade').textContent = gradeText;
+            document.getElementById('diplomaGradeLabel').textContent = gradeLabel;
+
+            var labelEl = document.getElementById('diplomaGradeLabel');
+            labelEl.className = 'grade-label';
+            if (wrong === 0) labelEl.classList.add('success');
+            else labelEl.classList.add('fail');
+
+            document.getElementById('diplomaMessage').innerHTML = message;
+
+            overlay.classList.add('open');
+
+            if (examTimerInterval) {
+                clearInterval(examTimerInterval);
+                examTimerInterval = null;
+            }
+        }
+
+        function closeDiploma() {
+            document.getElementById('diplomaOverlay').classList.remove('open');
+            stopConfetti();
+        }
+
+        function printDiploma() {
+            var overlay = document.getElementById('diplomaOverlay');
+            var originalDisplay = overlay.style.display;
+            overlay.style.display = 'flex';
+            setTimeout(function() {
+                window.print();
+                setTimeout(function() {
+                    overlay.style.display = originalDisplay;
+                }, 500);
+            }, 200);
+        }
+
+        // ============================================================
+        //  КЛИКИ
+        // ============================================================
+
+        function onWordClick(e) {
+            var wrapper = e.currentTarget.closest('.word-wrapper');
+            if (!wrapper) return;
+            var wordEl = wrapper.querySelector('.word');
+
+            if (examMode && (examAnswered || examCompleted)) {
+                if (examCompleted) {
+                    showToast('🎯 Экзамен завершён! Нажми "Сбросить".', 'exam');
+                } else {
+                    showToast('⚠️ Ты уже проверил это предложение!', 'error');
+                }
+                return;
+            }
+
+            var cls = getWordClass(currentTool);
+            wordEl.className = 'word';
+            if (cls !== 'word-clear') {
+                wordEl.classList.add(cls);
+            }
+            wordEl.classList.remove('pos-correct', 'pos-wrong', 'pos-missed', 'pos-hint');
+            wordEl.style.background = '';
+            wordEl.style.opacity = '';
+            document.getElementById('result').className = 'check-result';
+            document.getElementById('result').textContent = '';
+            updateStats();
+        }
+
+        // ============================================================
+        //  СТАТИСТИКА
+        // ============================================================
+
+        function updateStats() {
+            var words = document.querySelectorAll('.word');
+            var counts = { subject: 0, predicate: 0, object: 0, circumstance: 0, definition: 0 };
+            words.forEach(function(el) {
+                if (el.classList.contains('word-subject')) counts.subject++;
+                else if (el.classList.contains('word-predicate')) counts.predicate++;
+                else if (el.classList.contains('word-object')) counts.object++;
+                else if (el.classList.contains('word-circumstance')) counts.circumstance++;
+                else if (el.classList.contains('word-definition')) counts.definition++;
+            });
+            document.getElementById('countSubject').textContent = counts.subject;
+            document.getElementById('countPredicate').textContent = counts.predicate;
+            document.getElementById('countObject').textContent = counts.object;
+            document.getElementById('countCircumstance').textContent = counts.circumstance;
+            document.getElementById('countDefinition').textContent = counts.definition;
+        }
+
+        // ============================================================
+        //  ОЧИСТКА
+        // ============================================================
+
+        function clearAll() {
+            document.querySelectorAll('.word').forEach(function(el) {
+                el.className = 'word';
+                el.classList.remove('pos-correct', 'pos-wrong', 'pos-missed', 'pos-hint');
+                el.style.background = '';
+                el.style.opacity = '';
+            });
+            document.getElementById('result').className = 'check-result';
+            document.getElementById('result').textContent = '';
+            updateStats();
+        }
+
+        // ============================================================
+        //  ПРОВЕРКА
+        // ============================================================
+
+        function getActualClass(el) {
+            if (el.classList.contains('word-subject')) return 'subject';
+            if (el.classList.contains('word-predicate')) return 'predicate';
+            if (el.classList.contains('word-object')) return 'object';
+            if (el.classList.contains('word-circumstance')) return 'circumstance';
+            if (el.classList.contains('word-definition')) return 'definition';
+            return 'clear';
+        }
+
+        function getWordType(word, sentenceData) {
+            var clean = word.replace(/[.,!?;:]/g, '').toLowerCase();
+
+            function isInList(str, word) {
+                if (str === '—') return false;
+                var items = str.split(',').map(function(w) { return w.trim().toLowerCase(); });
+                for (var i = 0; i < items.length; i++) {
+                    var item = items[i];
+                    if (item === word) return true;
+                    var words = item.split(' ');
+                    for (var j = 0; j < words.length; j++) {
+                        if (words[j] === word) return true;
+                    }
+                }
+                return false;
+            }
+            if (isInList(sentenceData.subject, clean)) return 'subject';
+            if (isInList(sentenceData.predicate, clean)) return 'predicate';
+            if (isInList(sentenceData.object, clean)) return 'object';
+            if (isInList(sentenceData.circumstance, clean)) return 'circumstance';
+            if (isInList(sentenceData.definition, clean)) return 'definition';
+            return null;
+        }
+
+        function checkAll() {
+            if (!currentData) {
+                showToast('⚠️ Нет предложения для проверки!', 'error');
+                return;
+            }
+
+            if (examMode && (examAnswered || examCompleted)) {
+                if (examCompleted) {
+                    showToast('🎯 Экзамен завершён! Нажми "Сбросить".', 'exam');
+                } else {
+                    showToast('⚠️ Ты уже проверил это предложение!', 'error');
+                }
+                return;
+            }
+
+            var wrappers = document.querySelectorAll('.word-wrapper');
+            var correct = 0;
+            var total = 0;
+
+            wrappers.forEach(function(wrapper) {
+                var wordEl = wrapper.querySelector('.word');
+                var word = wordEl.textContent;
+
+                var expected = getWordType(word, currentData);
+                var actual = getActualClass(wordEl);
+
+                if (expected !== null) {
+                    total++;
+                    if (actual === expected) {
+                        correct++;
+                        wordEl.classList.add('pos-correct');
+                        wordEl.style.background = 'rgba(16, 185, 129, 0.12)';
+                    } else if (actual === 'clear') {
+                        wordEl.classList.add('pos-missed');
+                        wordEl.style.background = 'rgba(251, 191, 36, 0.1)';
+                    } else {
+                        wordEl.classList.add('pos-wrong');
+                        wordEl.style.background = 'rgba(239, 68, 68, 0.08)';
+                    }
+                } else {
+                    if (actual !== 'clear') {
+                        wordEl.classList.add('pos-wrong');
+                        wordEl.style.background = 'rgba(239, 68, 68, 0.08)';
+                    }
+                }
+            });
+
+            var resultEl = document.getElementById('result');
+            var wrong = document.querySelectorAll('.pos-wrong').length;
+            var missed = document.querySelectorAll('.pos-missed').length;
+            resultEl.className = 'check-result show';
+
+            var isCorrect = false;
+            if (wrong === 0 && missed === 0 && total > 0) {
+                resultEl.className = 'check-result show success';
+                resultEl.textContent = '✅ Всё верно! (' + correct + '/' + total + ')';
+                isCorrect = true;
+                showToast('🎉 Правильно! Молодец!', 'success');
+                playSound('correct');
+            } else if (wrong === 0 && missed > 0) {
+                resultEl.className = 'check-result show partial';
+                resultEl.textContent = '⚠️ Не все слова подчёркнуты (' + correct + '/' + total + ')';
+                showToast('⚠️ Есть неподчёркнутые слова', 'error');
+                playSound('wrong');
+            } else if (total === 0) {
+                resultEl.className = 'check-result show partial';
+                resultEl.textContent = '⚠️ Нет слов для проверки';
+            } else {
+                resultEl.className = 'check-result show fail';
+                resultEl.textContent = '❌ Есть ошибки (' + correct + '/' + total + ')';
+                showToast('❌ Есть ошибки! Попробуй ещё раз.', 'error');
+                playSound('wrong');
+            }
+
+            if (examMode) {
+                examTotal++;
+                if (isCorrect) {
+                    examCorrect++;
+                } else {
+                    examWrong++;
+                }
+                updateExamStats();
+                examAnswered = true;
+                document.getElementById('examCounter').textContent = '🎯 Экзамен • ' + examTotal + '/' + EXAM_COUNT;
+
+                if (examTotal >= examSentences.length) {
+                    examCompleted = true;
+                    if (examTimerInterval) {
+                        clearInterval(examTimerInterval);
+                        examTimerInterval = null;
+                    }
+                    setTimeout(function() {
+                        showDiploma(examCorrect, examWrong, examTotal);
+                        if (examWrong === 0) {
+                            showToast('🎉 Поздравляем! Ты сдал экзамен на ОТЛИЧНО!', 'success');
+                        } else if (examWrong <= 2) {
+                            showToast('📜 Ты получил грамоту! Хороший результат!', 'exam');
+                        } else {
+                            showToast('💪 Не сдавайся! Тренируйся дальше!', 'exam');
+                        }
+                    }, 600);
+                }
+            }
+        }
+
+        // ============================================================
+        //  ТОСТ
+        // ============================================================
+
+        function showToast(text, type) {
+            type = type || '';
+            var toast = document.getElementById('toast');
+            toast.textContent = text;
+            toast.className = 'toast ' + type;
+            toast.classList.add('show');
+            clearTimeout(toast._timer);
+            toast._timer = setTimeout(function() {
+                toast.classList.remove('show');
+            }, 2500);
+        }
+
+        // ============================================================
+        //  ЗАПУСК
+        // ============================================================
+
+        document.addEventListener('DOMContentLoaded', function() {
+            init();
+        });
+    </script>
+</body>
+</html>
